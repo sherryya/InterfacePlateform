@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.db.dao.ZdcItovTerminalMapper" >
+
+    <resultMap id="BaseResultMap1" type="com.db.dto.ZdcItovTerminal" >
+    <id column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="terminal_imei" property="terminalImei" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+   <select id="selectAllForState" resultMap="BaseResultMap1">
+    select  terminal_imei
+      from t_itov_terminal where terminal_status=1
+   </select>
+   
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.db.dao.TZdcBreakruleqryFlagMapper" >
+  <resultMap id="BaseResultMap" type="com.db.dto.TZdcBreakruleqryFlag" >
+    <result column="car_plate_num" property="carPalteNum" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    car_plate_num,updatetime
+  </sql>
+  <insert id="insert" parameterType="com.db.dto.TZdcBreakruleqryFlag">
+    insert into t_zdc_breakruleqry_flag (
+        car_plate_num,updatetime)
+    values (
+        #{carPalteNum,jdbcType=VARCHAR},#{updatetime,jdbcType=VARCHAR}
+    )
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+     from  t_zdc_breakruleqry_flag
+    </select>
+    <select id="selectInfoByPlateNum" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select <include refid="Base_Column_List" />
+     from  t_zdc_breakruleqry_flag WHERE car_plate_num=#{car_plate_num}
+    </select>
+   <update id="updateQryRecord" parameterType="com.db.dto.TZdcBreakruleqryFlag">
+      UPDATE `t_zdc_breakruleqry_flag` SET updateTime=#{updatetime} WHERE car_plate_num=#{carPalteNum}
+   </update>
+</mapper>

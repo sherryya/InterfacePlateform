@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.db.dao.TZdcBreakrulesMapper" >
+  <resultMap id="BaseResultMap" type="com.db.dto.TZdcBreakrules" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="hphm" property="hphm" jdbcType="VARCHAR" />
+    <result column="date" property="date" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="act" property="act" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="fen" property="fen" jdbcType="VARCHAR" />
+    <result column="money" property="money" jdbcType="VARCHAR" />
+    <result column="handled" property="handled" jdbcType="VARCHAR" />
+    <result column="is_push" property="isPush" jdbcType="VARCHAR" />
+    <result column="is_lookup" property="isLookup" jdbcType="VARCHAR" />
+     <result column="account_name" property="account_name" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id,province,city,hphm,date,area,act,code,fen,money,handled,is_push,is_lookup
+  </sql>
+  <insert id="insert" parameterType="com.db.dto.TZdcBreakrules">
+    insert into t_zdc_breakrules (
+       province,city,hphm,date,area,act,code,fen,money,handled)
+    values (
+       #{province,jdbcType=VARCHAR},#{city,jdbcType=VARCHAR},
+        #{hphm,jdbcType=VARCHAR},#{date,jdbcType=VARCHAR},#{area,jdbcType=VARCHAR},
+        #{act,jdbcType=VARCHAR},#{code,jdbcType=VARCHAR},#{fen,jdbcType=VARCHAR},
+        #{money,jdbcType=VARCHAR},#{handled,jdbcType=VARCHAR}
+    )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.db.dto.TZdcBreakrules">
+    update t_zdc_breakrules
+    <set>
+
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="hphm != null">
+        hphm = #{hphm,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        date = #{date,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="act != null">
+        act = #{act,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="fen != null">
+        fen = #{fen,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=VARCHAR},
+      </if>
+      <if test="handled != null">
+        handled = #{handled,jdbcType=VARCHAR},
+      </if>
+      <if test="isPush != null">
+        is_push = #{isPush,jdbcType=VARCHAR},
+      </if>
+      <if test="isLookup != null">
+        is_lookup = #{isLookup,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_zdc_breakrules
+     where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select 
+    <include refid="Base_Column_List" />
+      from t_zdc_breakrules
+     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+      from t_zdc_breakrules
+  </select>
+   <!-- 根据时间和日期查询是否存在违规记录 -->
+   <select id="isExistBreakRule" resultType="java.lang.Integer" parameterType="com.db.dto.TZdcBreakrules">
+     SELECT COUNT(*) FROM `t_zdc_breakrules` t WHERE t.`hphm`=#{hphm} AND t.`date`=#{date}
+   </select>
+   <!-- 查询未阅读违章信息的手机号列表 -->
+   <select id="qryTelList" resultType="java.lang.String" >
+   SELECT DISTINCT a.account_name FROM `t_itov_account`  a  
+   INNER JOIN `t_itov_car` b ON a.account_id=b.account_id
+   INNER JOIN  t_zdc_breakrules c ON c.hphm=b.car_plate_number
+   WHERE c.is_lookup=0   
+   </select>
+   <!-- 根据用户名即手机号查询违章信息列表 -->
+   <select id="qryBreakRuleListByTel" resultMap="BaseResultMap" parameterType="java.lang.String">
+     SELECT a.account_name,c.* FROM `t_itov_account`  a  
+     INNER JOIN `t_itov_car` b ON a.account_id=b.account_id
+     INNER JOIN  t_zdc_breakrules c ON c.hphm=b.car_plate_number
+     WHERE c.is_lookup=0  AND a.account_name=#{account_name}
+
+   </select>
+</mapper>

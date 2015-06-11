@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.db.dao.TZdcTerminalOnlineflagMapper" >
+  <resultMap id="BaseResultMap" type="com.db.dto.TZdcTerminalOnlineflag" >
+    <result column="terminal_imei" property="terminalImei" jdbcType="VARCHAR" />
+    <result column="onlimne_status" property="onlimneStatus" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="crt_date" property="crtDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    terminal_imei,onlimne_status,update_date
+  </sql>
+  <insert id="insert" parameterType="com.db.dto.TZdcTerminalOnlineflag">
+    insert into t_zdc_terminal_onlineflag (
+        terminal_imei,onlimne_status)
+    values (
+        #{terminalImei,jdbcType=VARCHAR},  #{onlimneStatus,jdbcType=VARCHAR}
+    )
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+     t_zdc_terminal_onlineflag
+  </select>
+  <select id="selectInfoByImei" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select <include refid="Base_Column_List" />
+     from t_zdc_terminal_onlineflag t WHERE t.`terminal_imei`=#{terminalImei,jdbcType=VARCHAR}
+  </select>
+  
+  
+    <update id="update" parameterType="com.db.dto.TZdcTerminalOnlineflag">
+    update t_zdc_terminal_onlineflag
+    set   onlimne_status = #{onlimneStatus,jdbcType=VARCHAR} ,    update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where  terminal_imei=#{terminalImei,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.db.dao.DbTimeMapper">
+  <resultMap id="BaseResultMap" type="com.db.dto.DbTime">
+    <result column="now()" jdbcType="TIMESTAMP" property="dbTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+   now()
+  </sql>
+  <select id="selectDbTime" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+  </select>
+  <select id="selectTotalDateStr" parameterType="java.lang.Long"  resultType="java.lang.String" >
+  	select date_format(now(),'%Y%m%d') 
+  </select>
+  <select id="selectYesterdayStr" parameterType="java.lang.Long"  resultType="java.lang.String" >
+  	select date_format(date_add(now(),interval -1 day),'%Y%m%d')
+  </select>
+  <select id="selectDateByAddYear" parameterType="java.lang.Integer"  resultType="java.util.Date" >
+  	select date_add(now(),interval #{addYear,jdbcType=INTEGER} YEAR)
+  </select>
+</mapper>

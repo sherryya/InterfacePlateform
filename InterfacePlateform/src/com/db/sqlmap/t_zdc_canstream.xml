@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.db.dao.ZdcCanstreamMapper" >
+  <resultMap id="BaseResultMap" type="com.db.dto.ZdcCanstream" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="deviceuid" property="deviceuid" jdbcType="VARCHAR" />
+    <result column="ignition" property="ignition" jdbcType="INTEGER" />
+    <result column="reversing" property="reversing" jdbcType="INTEGER" />
+    <result column="brake" property="brake" jdbcType="INTEGER" />
+    <result column="light" property="light" jdbcType="INTEGER" />
+    <result column="left_before_door" property="leftBeforeDoor" jdbcType="INTEGER" />
+    <result column="rigth_before_door" property="rigthBeforeDoor" jdbcType="INTEGER" />
+    <result column="left_after_door" property="leftAfterDoor" jdbcType="INTEGER" />
+    <result column="right_after_door" property="rightAfterDoor" jdbcType="INTEGER" />
+    <result column="tail_box_door" property="tailBoxDoor" jdbcType="INTEGER" />
+    <result column="befort_cover" property="befortCover" jdbcType="INTEGER" />
+    <result column="steering_wheel_angle" property="steeringWheelAngle" jdbcType="DECIMAL" />
+    <result column="cleaning_liquid" property="cleaningLiquid" jdbcType="INTEGER" />
+    <result column="safety_belt" property="safetyBelt" jdbcType="INTEGER" />
+    <result column="engine_speed" property="engineSpeed" jdbcType="DECIMAL" />
+    <result column="instantaneous_velocity" property="instantaneousVelocity" jdbcType="DECIMAL" />
+    <result column="speed" property="speed" jdbcType="DECIMAL" />
+    <result column="battery_voltage" property="batteryVoltage" jdbcType="DECIMAL" />
+    <result column="outside_temperature" property="outsideTemperature" jdbcType="DECIMAL" />
+    <result column="mileage" property="mileage" jdbcType="DECIMAL" />
+    <result column="residual_oil_consumption" property="residualOilConsumption" jdbcType="DECIMAL" />
+    <result column="residual_oil_consumption_state" property="residualOilConsumptionState" jdbcType="INTEGER" />
+    <result column="battery_voltage_state" property="batteryVoltageState" jdbcType="INTEGER" />
+    <result column="upload_time" property="uploadTime" jdbcType="TIMESTAMP" />
+    <result column="mileage_finish" property="mileageFinish" jdbcType="VARCHAR" />
+    
+    
+    <result column="Left_Before_Window" property="Left_Before_Window" jdbcType="INTEGER" />
+    <result column="Rigth_Before_Window" property="Rigth_Before_Window" jdbcType="INTEGER" />
+    <result column="Left_After_Window" property="Left_After_Window" jdbcType="INTEGER" />
+    <result column="Right_After_Window" property="Right_After_Window" jdbcType="INTEGER" />
+    
+    
+  </resultMap>
+ <resultMap id="BaseResultMap1" type="com.db.dto.ZdcCanstream" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="deviceuid" property="deviceuid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id,deviceuid,ignition,reversing,brake,light,left_before_door,rigth_before_door,left_after_door,right_after_door,tail_box_door,befort_cover,steering_wheel_angle,cleaning_liquid,safety_belt,engine_speed,instantaneous_velocity,speed,battery_voltage,outside_temperature,mileage,residual_oil_consumption,residual_oil_consumption_state,battery_voltage_state,upload_time
+  </sql>
+  <insert id="insert" parameterType="com.db.dto.ZdcCanstream">
+    insert into t_zdc_canstream (
+       deviceuid,ignition,reversing,brake,light,left_before_door,rigth_before_door,left_after_door,right_after_door,
+       tail_box_door,befort_cover,steering_wheel_angle,cleaning_liquid,safety_belt,engine_speed,instantaneous_velocity,
+       speed,battery_voltage,outside_temperature,mileage,residual_oil_consumption,residual_oil_consumption_state,
+       battery_voltage_state,upload_time,Left_Before_Window,Rigth_Before_Window,Left_After_Window,Right_After_Window
+        )
+    values (
+      #{deviceuid,jdbcType=VARCHAR},#{ignition,jdbcType=INTEGER},
+        #{reversing,jdbcType=INTEGER},#{brake,jdbcType=INTEGER},#{light,jdbcType=INTEGER},
+        #{leftBeforeDoor,jdbcType=INTEGER},#{rigthBeforeDoor,jdbcType=INTEGER},#{leftAfterDoor,jdbcType=INTEGER},
+        #{rightAfterDoor,jdbcType=INTEGER},#{tailBoxDoor,jdbcType=INTEGER},#{befortCover,jdbcType=INTEGER},
+        #{steeringWheelAngle,jdbcType=DECIMAL},#{cleaningLiquid,jdbcType=INTEGER},#{safetyBelt,jdbcType=INTEGER},
+        #{engineSpeed,jdbcType=DECIMAL},#{instantaneousVelocity,jdbcType=DECIMAL},#{speed,jdbcType=DECIMAL},
+        #{batteryVoltage,jdbcType=DECIMAL},#{outsideTemperature,jdbcType=DECIMAL},#{mileage,jdbcType=DECIMAL},
+        #{residualOilConsumption,jdbcType=DECIMAL},#{residualOilConsumptionState,jdbcType=INTEGER},
+        #{batteryVoltageState,jdbcType=INTEGER}, #{uploadTime,jdbcType=TIMESTAMP},
+        #{Left_Before_Window,jdbcType=INTEGER},
+        #{Rigth_Before_Window,jdbcType=INTEGER},
+        #{Left_After_Window,jdbcType=INTEGER},
+        #{Right_After_Window,jdbcType=INTEGER}
+    )
+  </insert>
+  
+  	<insert id="insertBus" useGeneratedKeys="true" parameterType="java.util.List">
+		insert into t_zdc_canbusstream
+		(deviceuid,busInformation,uploadTime)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.deviceuid},#{item.busInformation},#{item.uploadTime})
+		</foreach>
+	</insert>
+ 
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select 
+    <include refid="Base_Column_List" />
+      from t_zdc_canstream
+     where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+      from t_zdc_canstream
+   </select>
+    
+  <select id="selectForID1" resultMap="BaseResultMap1" parameterType="com.db.dto.ZdcCanstream">
+    select  id,deviceuid  from t_zdc_canstream where DeviceUID=#{deviceuid,jdbcType=VARCHAR}  and Mileage_Finish='n' 
+    AND Ignition=1
+    <!--  <if test="id1!=null">
+      and  id&gt;#{id1}
+    </if>
+     -->
+     order by Upload_Time  asc  limit 1
+  </select>
+  
+  <select id="selectForID2" resultMap="BaseResultMap1" parameterType="com.db.dto.ZdcCanstream">
+    select  id,deviceuid from t_zdc_canstream where DeviceUID=#{deviceuid,jdbcType=VARCHAR}  and Mileage_Finish='n' 
+    AND <![CDATA[ Ignition !=-1  and  id>#{id,jdbcType=BIGINT} ]]>
+    order by Upload_Time  asc  limit 1
+  </select>
+  
+  <select id="selectForID3" resultMap="BaseResultMap" parameterType="com.db.dto.ZdcCanstream">
+   select * from t_zdc_canstream where 
+   <![CDATA[ id>=#{id,jdbcType=BIGINT} and id<=#{id1,jdbcType=BIGINT} ]]> and deviceuid=#{deviceuid,jdbcType=VARCHAR}   order by   Upload_Time  asc
+  </select>
+  <update id="updateMileFlag" parameterType="java.lang.Long">
+     update t_zdc_canstream set Mileage_Finish = 1 where id = #{id}
+  </update>
+  <!-- 根据设备id查询里程的id作为下个里程开始的判断 -->
+  <select id="selectIdByDeviceId" resultType="java.lang.Long" parameterType="java.lang.String">
+  SELECT c.id FROM `t_zdc_canstream_tempsaveid` c WHERE c.`deviceid`=#{deviceid}
+  </select>
+  <!-- 如果设备id存在记录则更新 -->
+  <update id="updateCanStreamID" parameterType="com.db.dto.ZDCanstreamTempSave">
+    UPDATE `t_zdc_canstream_tempsaveid` SET id=#{id} WHERE deviceid=#{deviceid}
+  </update>
+  <!-- 如果没有则插入 -->
+  <insert id="insertCanStreamID" parameterType="com.db.dto.ZDCanstreamTempSave">
+     INSERT INTO `t_zdc_canstream_tempsaveid`(deviceid,id) VALUE(#{deviceid},#{id});
+  </insert>
+  <!-- 查询我完成的里程异常情况的查询，如 平板没电 -->
+  <select id="selectUnfinished" resultMap="BaseResultMap1" parameterType="com.db.dto.ZdcCanstream">
+     SELECT t.`ID`,t.`DeviceUID` FROM t_zdc_canstream t WHERE t.`Mileage_Finish`='n' AND t.`Ignition`=1 AND <![CDATA[ t.`ID`>#{id} and t.`ID`<#{id1}]]>  AND t.`DeviceUID`=#{deviceuid,jdbcType=VARCHAR}
+  </select>
+  <!-- 根据id查询最新一条gps信息 20150206 -->
+   <select id="selectCanByDeviceId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+      from t_zdc_canstream t
+     where DeviceUID=#{deviceuid,jdbcType=VARCHAR} and t.`Ignition` !=0  ORDER BY t.`Upload_Time` DESC LIMIT 1
+  </select>
+</mapper>

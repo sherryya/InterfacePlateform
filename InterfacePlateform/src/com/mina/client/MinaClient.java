@@ -1,0 +1,69 @@
+package com.mina.client;
+import java.net.InetSocketAddress;    
+import org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder;   
+import org.apache.mina.core.future.ConnectFuture;   
+import org.apache.mina.filter.codec.ProtocolCodecFilter;   
+import org.apache.mina.filter.codec.textline.TextLineCodecFactory;   
+import org.apache.mina.transport.socket.nio.NioSocketConnector;   
+import com.dto.SendReport;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
+/**  
+ * mina客户端  
+ */  
+
+/*
+//查看车门状态
+public static String LOOK_DOOR="2E900301410129";
+//查看车窗状态
+public static String LOOK_WINDOWS="2E900301410426";
+//查看中控锁状态
+public static String LOOK_LOCK="2E900301A102C8";
+//中控落锁指令
+public static String LOCK_CAR="2E900301A101C9";*/
+
+public class MinaClient {   
+    @SuppressWarnings("deprecation")
+	public static void main(String []args)throws Exception{   
+        //Create TCP/IP connection   
+        NioSocketConnector connector = new NioSocketConnector();   
+        //创建接受数据的过滤器     com.main.AutoClacCanStream
+        DefaultIoFilterChainBuilder chain = connector.getFilterChain();   
+        //设定这个过滤器将一行一行(/r/n)的读取数据   
+        chain.addLast("myChin", new ProtocolCodecFilter(new TextLineCodecFactory()));   
+        //客户端的消息处理器：一个SamplMinaServerHander对象   
+        SendReport sendReport=new SendReport();
+       // sendReport.setSendContent("32 2E 31 30 30 30 30 30 2C 30 2E 30 30 30 30 30 30 2C 32 34 33 2E 30 32 39 39 39 39 2C 35 2E 36 30 30 30 30 30 2C 32 30 31 34 2D 31 30 2D 31 32 20 31 37 3A 34 38 3A 35 32 3B 34 35 2E 37 35 33 33 35 33 2C 31 32 36 2E 35 39 38 31 39 32 2C 31 33 32 2E 35 30 30 30 30 30 2C 30 2E 30 30 30 30 30 30 2C 32 34 32 2E 30 33 39 39 39 33 2C 35 2E 37 30 30 30 30 30 2C 32 30 31 34 2D 31 30 2D 31 32 20 31 37 3A 34 38 3A 35 34 3B 34 35 2E 37 35 33 33 34 30 2C 31 32 36 2E 35 39 38 31 33 35 2C 31 33 32 2E 33 30 30 30 30 30 2C 30 2E 30 30 30 30 30 30 2C 32 34 32 2E 32 32 39 39 39 36 2C 35 2E 39 30 30 30 30 30 2C 32 30 31 34 2D 31 30 2D 31 32 20 31 37 3A 34 38 3A 35 37 3B 22 2C 22 73 65 6E 64 48 65 61 64 22 3A 22 47 50 53 22 2C 22 73 65 6E 64 54 65 72 6D 69 6E 61 6C 22 3A 22 43 41 52 22 7D 0A");
+        
+        sendReport.setSendContent("45.746014,1266666666666.685439,0.0,0.0,0.0,99.98999786376953,2014-11-04 12:23:05;45.746039,126.685427,0.0,0.0,0.0,99.98999786376953,2014-11-04 12:23:16;45.746008,126.685427,0.0,0.0,0.0,99.98999786376953,2014-11-04 12:23:25;45.735638,126.675204,0.0,4.226701259613037,0.0,3.8250465393066406,2014-11-04 12:23:36;45.746049,126.685433,0.0,0.0,0.0,99.98999786376953,2014-11-04 12:23:46;45.728747,126.668858,0.0,4.543023109436035,0.0,3.8341071605682373,2014-11-04 12:23:58;");
+       // sendReport.setSendContent("2E8101FF7C#2E16020000E7#2E2106C0310905400099#2E24020404D12E41020104B7#2E24020404D1#2E25020000D8#2E26026C2D3E#2E41020104B7#FE2E410D0202B700000578000A00006622E7#2E41020300B9#2E41050403050705A1#2014-11-07 11:33:38;");
+        sendReport.setSendIP("tty0");
+        sendReport.setSendType("0");
+        sendReport.setSendHead("GPS");
+/*        sendReport.setSendContent("2E4103000500B6");
+        sendReport.setSendIP("1111111111");
+        sendReport.setSendType("3");
+        sendReport.setSendHead("CAN");//closeWindow
+        sendReport.setSendTerminal("CAR");*/
+
+        sendReport.setSendContent("2E900301A202C7");
+        sendReport.setSendIP("1111111111");
+        sendReport.setSendType("0");//下载
+        sendReport.setSendHead("CAN");//closeWindow
+        sendReport.setSendTerminal("CAR");
+        Gson gson=new Gson();
+        Type listType = new TypeToken<SendReport>(){}.getType();
+        String json=gson.toJson(sendReport, listType);
+        connector.setHandler(new MinaClientHandler(json+"#"));   
+        //set connect timeout   
+        connector.setConnectTimeout(30);   
+        //连接到服务器：   
+        ConnectFuture cf = connector.connect(new InetSocketAddress("125.211.221.231",10086));   
+        //Wait for the connection attempt to be finished.   
+       // ConnectFuture cf = connector.connect(new InetSocketAddress("127.0.0.1",8004));
+        cf.awaitUninterruptibly();   
+        cf.getSession().getCloseFuture().awaitUninterruptibly();   
+        connector.dispose();   
+    }  
+}

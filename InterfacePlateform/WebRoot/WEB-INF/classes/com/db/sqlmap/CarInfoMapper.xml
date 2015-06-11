@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.db.dao.CarInfoMapper">
+	
+	<resultMap id="CarMapTerminal"
+		type="com.db.dto.TItovCarVo">
+		<id column="car_brands" property="carBrands" jdbcType="VARCHAR" />
+		<id column="car_color" property="carColor" jdbcType="VARCHAR" />
+		<id column="car_plate_number" property="carPlateNumber" jdbcType="VARCHAR" />
+		<id column="car_id" property="carId" jdbcType="BIGINT" />
+		<id column="car_name" property="carName" jdbcType="VARCHAR" />
+		<id column="car_style" property="carStyle" jdbcType="VARCHAR" />
+		<id column="user_id" property="user_id" jdbcType="BIGINT" />
+		<id column="terminal_name" property="terminal_name" jdbcType="VARCHAR" />
+		<id column="terminal_imei" property="terminal_imei" jdbcType="VARCHAR" />
+		<id column="account_id" property="accountId" jdbcType="BIGINT" />
+		<id column="city_code" property="city_code" jdbcType="VARCHAR" />
+		<id column="province_code" property="province_code" jdbcType="VARCHAR" />
+		<id column="car_carcase_num" property="car_carcase_num" jdbcType="VARCHAR" />
+		<id column="car_engine_num" property="car_engine_num" jdbcType="VARCHAR" />
+	</resultMap>
+<!-- 根据account_id违章查询需要  20141128-->
+	<select id="qryCarInfoAll"  resultMap="CarMapTerminal">
+        SELECT car.`account_id`,car.`car_brands`,car.`car_color`,car.`car_id`,car.`car_name`,car.`car_plate_number`,car.`car_style`,car.`car_carcase_num`,car.`car_engine_num`
+       ,car.`city_code`,car.`province_code` FROM `t_itov_car` car 
+	</select>
+	
+</mapper>

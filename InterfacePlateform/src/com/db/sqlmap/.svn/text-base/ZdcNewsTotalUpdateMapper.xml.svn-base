@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.db.dao.ZdcNewsTotalUpdateMapper">
+	<sql id="Base_Column_List">
+		id,title,author,description,content,pubDate,type
+	</sql>
+
+	<update id="clear_date">
+		truncate table t_zdc_news_total
+	</update>
+
+	<select id="selectTime" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		select pubDate from t_zdc_news_total where pubDate =
+		(select MAX(pubDate) from t_zdc_news_total)
+	</select>
+
+	<insert id="insertList" useGeneratedKeys="true" parameterType="java.util.List">
+		insert into t_zdc_news_total
+		(title,author,description,pubDate,content,type)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.title},#{item.author},#{item.description},#{item.pubDate},#{item.content},#{item.type})
+		</foreach>
+	</insert>
+</mapper>

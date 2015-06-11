@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.db.dao.ZdcGpsinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.db.dto.ZdcGpsinfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="deviceuid" property="deviceuid" jdbcType="VARCHAR" />
+    <result column="gpstime" property="gpstime" jdbcType="VARCHAR" />
+    <result column="latitude" property="latitude" jdbcType="DOUBLE" />
+    <result column="longitude" property="longitude" jdbcType="DOUBLE" />
+    <result column="height" property="height" jdbcType="DOUBLE" />
+    <result column="speed" property="speed" jdbcType="DOUBLE" />
+    <result column="acceleration" property="acceleration" jdbcType="DOUBLE" />
+    <result column="direction" property="direction" jdbcType="DOUBLE" />
+    <result column="locatenetworktypeid" property="locatenetworktypeid" jdbcType="DOUBLE" />
+    <result column="deviecetimezone" property="deviecetimezone" jdbcType="VARCHAR" />
+    <result column="gpstimeindefaulttimezone" property="gpstimeindefaulttimezone" jdbcType="VARCHAR" />
+    <result column="gpslocatestatus" property="gpslocatestatus" jdbcType="INTEGER" />
+    <result column="hdop" property="hdop" jdbcType="DOUBLE" />
+    <result column="satellitecount" property="satellitecount" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id,deviceuid,gpstime,latitude,longitude,height,speed,acceleration,direction,locatenetworktypeid,deviecetimezone,gpstimeindefaulttimezone,gpslocatestatus,hdop,satellitecount
+  </sql>
+  <insert id="insert" parameterType="com.db.dto.ZdcGpsinfo">
+    insert into t_zdc_gpsinfo (
+       deviceuid,gpstime,latitude,longitude,height,speed,direction,hdop)
+    values (
+       #{deviceuid,jdbcType=VARCHAR},#{gpstime,jdbcType=VARCHAR},
+        #{latitude,jdbcType=DOUBLE},#{longitude,jdbcType=DOUBLE},#{height,jdbcType=DOUBLE},
+        #{speed,jdbcType=DOUBLE},#{direction,jdbcType=DOUBLE},#{hdop,jdbcType=DOUBLE}
+    )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.db.dto.ZdcGpsinfo">
+    update t_zdc_gpsinfo
+    <set>
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="deviceuid != null">
+        deviceuid = #{deviceuid,jdbcType=VARCHAR},
+      </if>
+      <if test="gpstime != null">
+        gpstime = #{gpstime,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        latitude = #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="longitude != null">
+        longitude = #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="height != null">
+        height = #{height,jdbcType=DOUBLE},
+      </if>
+      <if test="speed != null">
+        speed = #{speed,jdbcType=DOUBLE},
+      </if>
+      <if test="acceleration != null">
+        acceleration = #{acceleration,jdbcType=DOUBLE},
+      </if>
+      <if test="direction != null">
+        direction = #{direction,jdbcType=DOUBLE},
+      </if>
+      <if test="locatenetworktypeid != null">
+        locatenetworktypeid = #{locatenetworktypeid,jdbcType=DOUBLE},
+      </if>
+      <if test="deviecetimezone != null">
+        deviecetimezone = #{deviecetimezone,jdbcType=VARCHAR},
+      </if>
+      <if test="gpstimeindefaulttimezone != null">
+        gpstimeindefaulttimezone = #{gpstimeindefaulttimezone,jdbcType=VARCHAR},
+      </if>
+      <if test="gpslocatestatus != null">
+        gpslocatestatus = #{gpslocatestatus,jdbcType=INTEGER},
+      </if>
+      <if test="hdop != null">
+        hdop = #{hdop,jdbcType=DOUBLE},
+      </if>
+      <if test="satellitecount != null">
+        satellitecount = #{satellitecount,jdbcType=INTEGER}
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_zdc_gpsinfo
+     where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select 
+    <include refid="Base_Column_List" />
+      from t_zdc_gpsinfo
+     where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+      from t_zdc_gpsinfo
+    </select>
+</mapper>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.db.dao.ZdcMileageMapper" >
+  <resultMap id="BaseResultMap" type="com.db.dto.ZdcMileage" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="deviceuid" property="deviceuid" jdbcType="VARCHAR" />
+    <result column="datastreamid1" property="datastreamid1" jdbcType="VARCHAR" />
+    <result column="datastreamid2" property="datastreamid2" jdbcType="VARCHAR" />
+    <result column="datastreamid3" property="datastreamid3" jdbcType="VARCHAR" />
+    <result column="datastreamid4" property="datastreamid4" jdbcType="VARCHAR" />
+    <result column="datastreamid5" property="datastreamid5" jdbcType="VARCHAR" />
+    <result column="datastreamid6" property="datastreamid6" jdbcType="VARCHAR" />
+    <result column="datastreamid7" property="datastreamid7" jdbcType="VARCHAR" />
+    <result column="datastreamid8" property="datastreamid8" jdbcType="VARCHAR" />
+    <result column="datastreamid9" property="datastreamid9" jdbcType="VARCHAR" />
+    <result column="datastreamid10" property="datastreamid10" jdbcType="VARCHAR" />
+    <result column="datastreamid11" property="datastreamid11" jdbcType="VARCHAR" />
+    <result column="datastreamid12" property="datastreamid12" jdbcType="VARCHAR" />
+    <result column="datastreamid13" property="datastreamid13" jdbcType="VARCHAR" />
+    <result column="datastreamid14" property="datastreamid14" jdbcType="VARCHAR" />
+    <result column="datastreamid15" property="datastreamid15" jdbcType="VARCHAR" />
+  </resultMap>
+  
+
+  <sql id="Base_Column_List" >
+    id,deviceuid,datastreamid1,datastreamid2,datastreamid3,datastreamid4,datastreamid5,datastreamid6,datastreamid7,datastreamid8,datastreamid9,datastreamid10,datastreamid11,datastreamid12,datastreamid13,datastreamid14,datastreamid15
+  </sql>
+  <insert id="insert" parameterType="com.db.dto.ZdcMileage">
+    insert into t_zdc_mileage (
+        deviceuid,datastreamid1,datastreamid2,datastreamid3,datastreamid4,datastreamid5,datastreamid6,datastreamid7,datastreamid8,datastreamid9,datastreamid10,datastreamid11,datastreamid12,datastreamid13,datastreamid14,datastreamid15
+    )values (
+        #{deviceuid,jdbcType=VARCHAR},#{datastreamid1,jdbcType=VARCHAR},
+        #{datastreamid2,jdbcType=VARCHAR},#{datastreamid3,jdbcType=VARCHAR},#{datastreamid4,jdbcType=VARCHAR},
+        #{datastreamid5,jdbcType=VARCHAR},#{datastreamid6,jdbcType=VARCHAR},#{datastreamid7,jdbcType=VARCHAR},
+        #{datastreamid8,jdbcType=VARCHAR},#{datastreamid9,jdbcType=VARCHAR},#{datastreamid10,jdbcType=VARCHAR},
+        #{datastreamid11,jdbcType=VARCHAR},#{datastreamid12,jdbcType=VARCHAR},#{datastreamid13,jdbcType=VARCHAR},
+        #{datastreamid14,jdbcType=VARCHAR},#{datastreamid15,jdbcType=VARCHAR}
+    )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.db.dto.ZdcMileage">
+    update t_zdc_mileage
+    <set>
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="deviceuid != null">
+        deviceuid = #{deviceuid,jdbcType=VARCHAR},
+      </if>
+      <if test="datastreamid1 != null">
+        datastreamid1 = #{datastreamid1,jdbcType=VARCHAR},
+      </if>
+      <if test="datastreamid2 != null">
+        datastreamid2 = #{datastreamid2,jdbcType=VARCHAR},
+      </if>
+      <if test="datastreamid3 != null">
+        datastreamid3 = #{datastreamid3,jdbcType=VARCHAR},
+      </if>
+      <if test="datastreamid4 != null">
+        datastreamid4 = #{datastreamid4,jdbcType=VARCHAR},
+      </if>
+      <if test="datastreamid5 != null">
+        datastreamid5 = #{datastreamid5,jdbcType=VARCHAR},
+      </if>
+      <if test="datastreamid6 != null">
+        datastreamid6 = #{datastreamid6,jdbcType=VARCHAR},
+      </if>
+      <if test="datastreamid7 != null">
+        datastreamid7 = #{datastreamid7,jdbcType=VARCHAR},
+      </if>
+      <if test="datastreamid8 != null">
+        datastreamid8 = #{datastreamid8,jdbcType=VARCHAR},
+      </if>
+      <if test="datastreamid9 != null">
+        datastreamid9 = #{datastreamid9,jdbcType=VARCHAR},
+      </if>
+      <if test="datastreamid10 != null">
+        datastreamid10 = #{datastreamid10,jdbcType=VARCHAR},
+      </if>
+      <if test="datastreamid11 != null">
+        datastreamid11 = #{datastreamid11,jdbcType=VARCHAR},
+      </if>
+      <if test="datastreamid12 != null">
+        datastreamid12 = #{datastreamid12,jdbcType=VARCHAR},
+      </if>
+      <if test="datastreamid13 != null">
+        datastreamid13 = #{datastreamid13,jdbcType=VARCHAR},
+      </if>
+      <if test="datastreamid14 != null">
+        datastreamid14 = #{datastreamid14,jdbcType=VARCHAR},
+      </if>
+      <if test="datastreamid15 != null">
+        datastreamid15 = #{datastreamid15,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_zdc_mileage
+     where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select 
+    <include refid="Base_Column_List" />
+      from t_zdc_mileage
+     where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+      from t_zdc_Mileage
+  </select>
+  
+  
+
+</mapper>

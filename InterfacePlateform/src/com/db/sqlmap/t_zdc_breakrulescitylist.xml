@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.db.dao.TZdcBreakrulescitylistMapper" >
+  <resultMap id="BaseResultMap" type="com.db.dto.TZdcBreakrulescitylist" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="province_code" property="provinceCode" jdbcType="VARCHAR" />
+    <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+    <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+    <result column="engine" property="engine" jdbcType="INTEGER" />
+    <result column="engineno" property="engineno" jdbcType="INTEGER" />
+    <result column="classt" property="classt" jdbcType="INTEGER" />
+    <result column="classa" property="classa" jdbcType="INTEGER" />
+    <result column="classno" property="classno" jdbcType="INTEGER" />
+    <result column="regist" property="regist" jdbcType="INTEGER" />
+    <result column="registno" property="registno" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id,province,province_code,city_name,city_code,engine,engineno,classt,classa,classno,regist,registno
+  </sql>
+  <insert id="insert" parameterType="com.db.dto.TZdcBreakrulescitylist">
+    insert into t_zdc_breakrulescitylist (
+        id,province,province_code,city_name,city_code,engine,engineno,classt,classa,classno,regist,registno)
+    values (
+        #{id,jdbcType=INTEGER},#{province,jdbcType=VARCHAR},#{provinceCode,jdbcType=VARCHAR},
+        #{cityName,jdbcType=VARCHAR},#{cityCode,jdbcType=VARCHAR},#{engine,jdbcType=INTEGER},
+        #{engineno,jdbcType=INTEGER},#{classt,jdbcType=INTEGER},#{classa,jdbcType=INTEGER},
+        #{classno,jdbcType=INTEGER},#{regist,jdbcType=INTEGER},#{registno,jdbcType=INTEGER}
+    )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.db.dto.TZdcBreakrulescitylist">
+    update t_zdc_breakrulescitylist
+    <set>
+      <if test="id != null">
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceCode != null">
+        province_code = #{provinceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null">
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityCode != null">
+        city_code = #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="engine != null">
+        engine = #{engine,jdbcType=INTEGER},
+      </if>
+      <if test="engineno != null">
+        engineno = #{engineno,jdbcType=INTEGER},
+      </if>
+      <if test="classt != null">
+        classt = #{classt,jdbcType=INTEGER},
+      </if>
+      <if test="classa != null">
+        classa = #{classa,jdbcType=INTEGER},
+      </if>
+      <if test="classno != null">
+        classno = #{classno,jdbcType=INTEGER},
+      </if>
+      <if test="regist != null">
+        regist = #{regist,jdbcType=INTEGER},
+      </if>
+      <if test="registno != null">
+        registno = #{registno,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER},
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_zdc_breakrulescitylist
+     where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select 
+    <include refid="Base_Column_List" />
+      from t_zdc_breakrulescitylist
+     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+     from t_zdc_breakrulescitylist
+    </select>
+  <!-- 根据省份代码和城市代码查询是否需要发动机号 车架号等信息 -->
+  <select id="selectByPcodeCity" resultMap="BaseResultMap" parameterType="com.db.dto.TZdcBreakrulescitylist">
+    select 
+    <include refid="Base_Column_List" />
+      from t_zdc_breakrulescitylist
+      where city_code = #{cityCode,jdbcType=VARCHAR}
+  </select>
+</mapper>

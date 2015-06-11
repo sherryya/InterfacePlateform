@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.db.dao.Tbl_terminal_userMapper">
+
+  <resultMap id="BaseResultMap" type="com.db.dto.Tbl_terminal_user">
+  	<result jdbcType="TIMESTAMP" property="dbTime" />
+  </resultMap>
+  
+  <select id="selectDevices"  resultMap="BaseResultMap">
+  	select DeviceUID,DeviceSN from tbl_terminal_user 
+  </select>
+  
+</mapper>

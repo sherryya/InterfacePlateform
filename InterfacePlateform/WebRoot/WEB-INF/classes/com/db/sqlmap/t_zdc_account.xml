@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.db.dao.ZdcAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.db.dto.ZdcAccount" >
+    <id column="account_id" property="account_id" jdbcType="BIGINT" />
+    <result column="account_name" property="account_name" jdbcType="VARCHAR" />
+
+    
+  </resultMap>
+
+   <!-- 通过终端号得到手机号-->
+   <select id="getAccountNameByTerminalID" resultMap="BaseResultMap" parameterType="java.lang.String">
+
+	SELECT c.`account_id`, c.`account_name` FROM t_itov_account c WHERE  c.`account_id`=(
+	SELECT b.`account_id_tel` FROM `t_itov_account`  a  INNER JOIN `t_zdc_terminal_account`  b
+	ON a.`account_id`=b.`account_id_ter`  WHERE  a.`account_name`=#{account_name}  LIMIT 1)
+   </select>
+</mapper>

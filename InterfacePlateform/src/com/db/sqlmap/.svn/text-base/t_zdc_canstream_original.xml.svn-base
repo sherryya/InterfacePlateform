@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.db.dao.ZdcCanstreamOriginalMapper" >
+  <resultMap id="BaseResultMap" type="com.db.dto.ZdcCanstreamOriginal" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="stream" property="stream" jdbcType="VARCHAR" />
+    <result column="deviceid" property="deviceid" jdbcType="VARCHAR" />
+    <result column="is_deal" property="isDeal" jdbcType="INTEGER" />
+     <result column="crt_date" property="crt_date" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id,deviceid,stream,is_deal,crt_date
+  </sql>
+  <insert id="insert" parameterType="com.db.dto.ZdcCanstreamOriginal">
+    insert into t_zdc_canstream_original (
+       deviceid, stream)
+    values (
+       #{deviceid,jdbcType=VARCHAR}, #{stream,jdbcType=VARCHAR}
+    )
+  </insert>
+  <select id="select" resultMap="BaseResultMap" >
+     select    <include refid="Base_Column_List" />
+     from t_zdc_canstream_original
+     where is_deal=0 limit 0,10000
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List" />
+      from t_zdc_canstream_original
+    </select>
+   <update id="updateByPrimaryKeySelective" parameterType="java.lang.Long">
+    update t_zdc_canstream_original  set  is_deal = 1  where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByPrimaryKeySelectives" parameterType="java.util.List" >
+     <!--  update t_zdc_canstream_original  set  is_deal = 1  where id = #{id,jdbcType=BIGINT}--> 
+     UPDATE t_zdc_canstream_original  SET  is_deal = 1  WHERE id  in  
+     <foreach collection="list" item="nos" open="(" separator="," close=")">
+        #{nos}
+     </foreach>
+  </update>
+</mapper>
